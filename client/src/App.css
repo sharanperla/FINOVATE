@@ -1,0 +1,18 @@
+#root {
+  margin: 0 auto;
+  padding: 0;
+  /* text-align: center; */
+}
+:root {
+  --color-primary: #93d6d6; /* Primary color */
+  --color-secondary: #000000; /* Secondary color */
+  --color-background: #ffffff; /* Background color */
+  --color-text-light: white; /* Text color white */
+  --color-text-dark: black; /* Text color black */
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  width: 100 svw;
+  height: 100 svh;
+  background-color: var(--color-background);
+}
