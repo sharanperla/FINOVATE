@@ -29,3 +29,13 @@ h1{
 h5{
   font-size: 1rem;
 }
+
+.app-container {
+  display: flex;
+  height: 100svh;
+}
+.page-content {
+  flex-grow: 1;
+  margin-left:17svw; 
+  overflow-y: auto;
+}
