@@ -1,0 +1,51 @@
+/* navigation container */
+.NavContainer{
+   background-color: var(--color-accent);
+   padding-left:1rem;
+   padding-right:1rem;
+   width: 15vw;
+   height: 100svh;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   padding-bottom:1rem;
+}
+.NavContainer p{
+    font-size: 1rem;
+}
+/* navbar title */
+.finovateIcon{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.titleContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* navbar items */
+.navItems{
+    display: flex;
+    flex-direction: column;
+
+}
+.navItem{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+.NavItemIcon{
+  width: 2rem;
+  height: 2rem;
+}
+.navItem:hover{
+    background-color: var(--color-primary-hover);
+}
+.click{
+    background-color: var(--color-primary);
+}
