@@ -1,0 +1,44 @@
+.transactionContainer{
+    padding: 1.5rem;
+}
+.descriptionText{
+    line-height: 0.8;
+}
+
+.transactionTableContainer{
+    flex: 1;
+}
+
+.buttonAndCount{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.count{
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    opacity: 70%;
+    line-height: 0;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+        th{
+            background-color: var(--color-primary-hover);
+            padding: 10px;
+            color: var(--color-text-dark);
+        }
+        td{
+            padding: 10px;
+            /* background-color: rgb(255, 255, 255); */
+        }
+       .income{
+        color:rgb(9, 209, 9);
+       }
+       .expense{
+        color:rgb(224, 52, 18);
+       }
+}

@@ -5,7 +5,7 @@
   --color-secondary: #000000; /* Secondary color */
   --color-background: #ffffff; /* Background color */
   --color-text-light: white; /* Text color white */
-  --color-text-dark: black; /* Text color black */
+  --color-text-dark: #3199e8; /* Text color black */
   --color-accent:#f6f4ff;
 }
 body {
@@ -36,6 +36,5 @@ h5{
 }
 .page-content {
   flex-grow: 1;
-  margin-left:17svw; 
   overflow-y: auto;
 }
