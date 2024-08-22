@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './DesktopNav.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/user/userSlice';
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,10 +9,10 @@ export default function DesktopNav() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.user.loading)
-
-  const [activeItem,setActiveItem]=useState('dashboard');
+  const location = useLocation();
+  const [activeItem,setActiveItem]=useState(location.pathname);
+  console.log(location);
   const handleNavigation = (item, route) => {
-    setActiveItem(item);
     navigate(route);
   };
 
@@ -42,9 +42,9 @@ export default function DesktopNav() {
             <h1>Finovate</h1>
         </div>
         <div className='navItems'>
-            <div className={`navItem ${activeItem === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/dashboard')}><img src="/Icons/dashboard.svg" alt=""   className='NavItemIcon'/><p>Dashboard</p></div>
-            <div className={`navItem ${activeItem === 'transactions' ? 'active' : ''}`} onClick={() => handleNavigation('transactions', '/transactions')}><img src="/Icons/credit-card.svg" alt=""   className='NavItemIcon'/><p>Transactions</p></div>
-            <div className={`navItem ${activeItem === 'categories' ? 'active' : ''}`} onClick={() => handleNavigation('categories', '/')} ><img src="/Icons/category.svg" alt="" className='NavItemIcon' /><p>Categories</p></div>
+            <div className={`navItem ${activeItem === '/dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/dashboard')}><img src="/Icons/dashboard.svg" alt=""   className='NavItemIcon'/><p>Dashboard</p></div>
+            <div className={`navItem ${activeItem === '/transactions' ? 'active' : ''}`} onClick={() => handleNavigation('transactions', '/transactions')}><img src="/Icons/credit-card.svg" alt=""   className='NavItemIcon'/><p>Transactions</p></div>
+            <div className={`navItem ${activeItem === '/categories' ? 'active' : ''}`} onClick={() => handleNavigation('categories', '/')} ><img src="/Icons/category.svg" alt="" className='NavItemIcon' /><p>Categories</p></div>
             <div className='navItem'><img src="/Icons/transaction2.svg" alt="" className='NavItemIcon' /><p>Income</p></div>
             <div className='navItem'><img src="/Icons/transaction1.svg" alt="" className='NavItemIcon' /><p>Expence</p></div>
         </div>

@@ -1,9 +1,12 @@
 import React from "react";
 import "./Transactions.css";
 import Button1 from "../../components/button/Button1";
+import DesktopNav from "../../components/navigation/DesktopNav";
 
 export default function Transactions() {
   return (
+    <div className="mainContainer">
+      <DesktopNav/>
     <div className="transactionContainer">
       <section className="descriptionText">
         <h1>Transactions</h1>
@@ -41,6 +44,7 @@ export default function Transactions() {
           </table>
         </div>
       </section>
+    </div>
     </div>
   );
 }

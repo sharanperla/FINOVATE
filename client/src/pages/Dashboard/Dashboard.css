@@ -1,5 +1,10 @@
+.mainContainer{
+    height: 100%;
+    display: flex;
+}
 .dashboardContainer{
     padding: 1.5rem;
+    flex: 1;
 }
 .section1{
     display: flex;
@@ -33,5 +38,6 @@
     gap: 10px;
     justify-content: end;
 }
+
 
 
