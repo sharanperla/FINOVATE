@@ -3,7 +3,7 @@ import { auth, db } from "../firebase/firebaseConfig.js";
 import { collection, doc, setDoc } from "firebase/firestore";
 
 export const signup = async (req, res) => {
-  const {email, password} = req.body;
+  const {email,username, password} = req.body;
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -14,7 +14,8 @@ export const signup = async (req, res) => {
     const userData = {
         email: user.email,
         uid: user.uid, // Firebase UID
-        createdAt: new Date(), // Optional: Add creation date
+        createdAt: new Date(),
+        username,
         // Add more user fields here if needed (e.g., name, profile image)
       };
       await setDoc(doc(db, "users", user.uid), userData);

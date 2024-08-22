@@ -1,14 +1,39 @@
 import React, { useState } from 'react'
 import './DesktopNav.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/user/userSlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function DesktopNav() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.user.loading)
+
   const [activeItem,setActiveItem]=useState('dashboard');
   const handleNavigation = (item, route) => {
     setActiveItem(item);
     navigate(route);
   };
+
+ const handleSignOut=async()=>{
+  try {
+    dispatch(signOutStart())
+    const res=await fetch('/api/auth/signout'); 
+    const data=await res.json();
+    if(data.success===false)
+      {
+        toast.error(data.message)
+         dispatch(signOutFailure(data.message));
+         return;
+      }
+      dispatch(signOutSuccess(data));
+      navigate('/')
+  } catch (error) {
+    toast.error(error.message)
+    dispatch(signOutFailure(error.message))
+  }
+ }
   return (
     <div className='NavContainer'>
         <div>
@@ -24,8 +49,9 @@ export default function DesktopNav() {
             <div className='navItem'><img src="/Icons/transaction1.svg" alt="" className='NavItemIcon' /><p>Expence</p></div>
         </div>
        </div>
+       <ToastContainer/>
         <div>
-        <div className='navItem'><img src="/Icons/logout.svg" alt="" className='NavItemIcon' /><p>Logout</p></div>
+        <div className='navItem' onClick={handleSignOut}><img src="/Icons/logout.svg" alt="" className='NavItemIcon' /><p>Logout</p></div>
         </div>
       
     </div>
