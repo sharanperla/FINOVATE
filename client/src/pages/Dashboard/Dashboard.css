@@ -21,23 +21,42 @@
     font-family: 'Courier New', Courier, monospace;
   } 
 }
-.userProfile{
+
+.userProfile {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    p {
-        width: 50%;
-        font-size: 15px;
-        font-weight: bold;
-    }
-}
+    align-items: center; /* Aligns items vertically centered */
+    gap: 16px; /* Adds space between the image and the description */
+    padding: 10px; /* Adds padding around the container */
+    background-color: white; /* Optional: Adds a background color */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+  }
+  
+  .userIcon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the image circular */
+  }
+  
+  .userDesc {
+    display: flex;
+    flex-direction: column; /* Stacks name and email vertically */
+  }
+  
+  .userDesc span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333; /* Adjust the color as needed */
+  }
+  
+  .userDesc p {
+    font-size: 10px;
+    color: #777; /* Adjust the color as needed */
+    margin: 4px 0 0; /* Adjusts spacing between name and email */
+  }
 
 .section2{
     display: flex;
     gap: 10px;
     justify-content: end;
 }
-
-
 

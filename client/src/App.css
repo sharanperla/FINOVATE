@@ -7,6 +7,7 @@
   --color-text-light: white; /* Text color white */
   --color-text-dark: #3199e8; /* Text color black */
   --color-accent:#f6f4ff;
+  --color-btn:rgb(50, 108, 254);
 }
 body {
   margin: 0;
