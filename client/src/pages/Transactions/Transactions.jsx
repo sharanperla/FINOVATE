@@ -32,7 +32,7 @@ export default function Transactions() {
   const fetchTransactions = async () => {
     try {
       dispatch(fetchTransactionsStart());
-      const userId = currentUser.user.uid;
+      const userId = currentUser.user.userId;
       const res = await fetch(`/api/transactions/getbyuser/${userId}`);
       const data = await res.json();
       if (data.success === false) {
@@ -132,11 +132,17 @@ export default function Transactions() {
               <tbody>
                 {filteredTransactions.map(transaction => (
                   <tr key={transaction.id}>
-                    <td>{new Date(transaction.date).toLocaleDateString()} {new Date(transaction.date).toLocaleTimeString()}</td>
+                    <td>{new Date(transaction.date).toLocaleDateString()}</td>
                     <td className={transaction.type === 'income' ? 'income' : 'expense'}>
                       {transaction.type === 'income' ? '+ ' : '- '}${transaction.amount}
                     </td>
-                    <td>{transaction.paymentName}</td>
+                    <td>
+                      <div  className="hoverDescription">
+                      {transaction?.name}
+                      <span>{transaction.description}</span>
+                      </div>
+                    </td>
+                    
                     <td>{transaction.method}</td>
                     <td>{transaction.category}</td>
                   </tr>

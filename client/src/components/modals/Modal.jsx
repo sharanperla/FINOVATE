@@ -15,6 +15,7 @@ export default function Modal({ handleClose }) {
     category: '',
     customCategory: '', // New state for custom category
     method: 'cash',
+    customMethod:''
   });
 
   const incomeCategories = [
@@ -67,8 +68,8 @@ export default function Modal({ handleClose }) {
       const requestData = {
         ...formData,
         category: formData.category === 'other' ? formData.customCategory : formData.category,
-        category: formData.method === 'other' ? formData.customMethod : formData.method,
-        userId: currentUser.user.uid,
+        method: formData.method === 'other' ? formData.customMethod : formData.method,
+        userId: currentUser.user.userId,
       };
       const res = await fetch('/api/transactions/create', {
         method: 'POST',
@@ -137,6 +138,12 @@ export default function Modal({ handleClose }) {
           <h1>Adding new transaction</h1>
         </div>
         <div className='row'>
+          <label htmlFor="name" className="ModalInputContainer">
+            <span>Name</span>
+            <input type="text" id='name'  onChange={handleChange} className='selectInput' placeholder='john doe' />
+          </label>
+        </div>
+        <div className='row'>
           <label htmlFor="type" className='selectInputContainer'>
             <span>Type</span>
             <select id="type" value={formData.type} onChange={handleChange} className='selectInput'>
@@ -197,19 +204,17 @@ export default function Modal({ handleClose }) {
           </div>
         )}
         <div className='row'>
-          <label htmlFor="name" className="ModalInputContainer">
-            <span>Name</span>
-            <input type="text" id='name' onChange={handleChange} className='selectInput' />
-          </label>
-        </div>
-        <div className='row'>
           <label htmlFor="description" className="ModalInputContainer">
             <span>Description</span>
             <textarea id='description' onChange={handleChange} className='selectInput' />
           </label>
         </div>
         <div className='row'>
-          <button className="cancelBtn" onClick={handleClose}>Cancel</button>
+          <button className="cancelBtn" onClick={()=>{
+            handleClose()
+            dispatch(addTransactionFailure())
+
+          }}>Cancel</button>
           <button disabled={loading} type="submit" className="submitBtn" onClick={handleSubmit}>{loading ? 'Loading..' : 'Submit'}</button>
         </div>
       </div>

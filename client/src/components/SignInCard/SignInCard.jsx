@@ -55,11 +55,11 @@ export default function SignInCard({ handleFlip }) {
       }
   
       dispatch(signInSuccess(data));
+      console.log(data);
       toast.success(data.message)
       navigate('/dashboard');
 
     } catch (error) {
-
       toast.error(error.message || 'An error occurred'); 
       dispatch(signInFailure(error.message || 'An error occurred'));
     }
