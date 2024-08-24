@@ -47,3 +47,21 @@ table{
         color:rgb(224, 52, 18);
        }
 }
+.filters{
+    display: flex;
+    gap: 10px;
+}
+.filterContainer{
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    font-size: 0.8rem;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    .selectItem{
+            border: none;
+            outline: none;
+    }
+}

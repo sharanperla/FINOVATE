@@ -60,3 +60,11 @@
     justify-content: end;
 }
 
+.cardContainer{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}

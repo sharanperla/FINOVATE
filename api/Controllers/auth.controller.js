@@ -32,11 +32,12 @@ export const signin=async(req,res)=>{
         const user=validUser.user;
 
         const token = await user.getIdToken();
+      
 
         res.cookie('access_token',token,{httpOnly:true, secure: true, sameSite: 'Strict'}).status(200).json({
             message: "User signed in successfully",
             user: {
-              uid: user.uid,
+              userId: user.uid,
               email: user.email,
               // Include any additional user data as needed
             }

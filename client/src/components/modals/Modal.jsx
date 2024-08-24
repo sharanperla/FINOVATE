@@ -1,128 +1,218 @@
-import React, { useState } from 'react'
-import './Modal.css'
-export default function Modal({handleClose}) {
-  const [formData,setFormData]=useState({})
-  const [errors, setErrors] = useState({});
+import React, { useState } from 'react';
+import './Modal.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { addTransactionFailure, addTransactionStart, addTransactionSuccess } from '../../redux/transactions/transaction.slice';
 
-  const handleChange =(e)=>{
+export default function Modal({ handleClose }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector((state) => state.transaction.loading);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [formData, setFormData] = useState({
+    type: 'income',
+    category: '',
+    customCategory: '', // New state for custom category
+    method: 'cash',
+  });
+
+  const incomeCategories = [
+    { value: 'salary', label: 'Salary' },
+    { value: 'freelance', label: 'Freelance Work' },
+    { value: 'investment', label: 'Investments/Dividends' },
+    { value: 'rental', label: 'Rental Income' },
+    { value: 'gifts', label: 'Gifts' },
+    { value: 'refunds', label: 'Refunds' },
+    { value: 'bonuses', label: 'Bonuses' },
+    { value: 'side_business', label: 'Side Business' },
+    { value: 'other', label: 'Other' }, // Option for custom category
+  ];
+
+  const expenseCategories = [
+    { value: 'rent', label: 'Rent/Mortgage' },
+    { value: 'utilities', label: 'Utilities' },
+    { value: 'groceries', label: 'Groceries' },
+    { value: 'transportation', label: 'Transportation' },
+    { value: 'insurance', label: 'Insurance' },
+    { value: 'medical', label: 'Medical/Healthcare' },
+    { value: 'education', label: 'Education' },
+    { value: 'dining_out', label: 'Dining Out' },
+    { value: 'entertainment', label: 'Entertainment' },
+    { value: 'travel', label: 'Travel' },
+    { value: 'shopping', label: 'Shopping' },
+    { value: 'subscriptions', label: 'Subscriptions' },
+    { value: 'debt_payments', label: 'Debt Payments' },
+    { value: 'savings', label: 'Savings/Investments' },
+    { value: 'other', label: 'Other' }, // Option for custom category
+  ];
+
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]:e.target.value,
-    })
-    console.log(formData);
-  }
+      [e.target.id]: e.target.value,
+    });
+  };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log('Form is valid:', formData);
-      // Submit the form or perform further actions
-    } else {
-      console.log('Form is invalid:', errors);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errorMessage = validateForm(formData);
+    if (errorMessage) {
+      toast.error(errorMessage || 'An error occurred');
+      dispatch(addTransactionFailure(errorMessage));
+      return;
+    }
+    try {
+      dispatch(addTransactionStart());
+      const requestData = {
+        ...formData,
+        category: formData.category === 'other' ? formData.customCategory : formData.category,
+        category: formData.method === 'other' ? formData.customMethod : formData.method,
+        userId: currentUser.user.uid,
+      };
+      const res = await fetch('/api/transactions/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        toast.error(errorMessage || 'An error occurred');
+        dispatch(addTransactionFailure(errorMessage || 'An error occurred'));
+        return;
+      }
+      const data = await res.json();
+      if (data.success === false) {
+        toast.error(data.message || 'An error occurred');
+        dispatch(addTransactionFailure(data.message || 'An error occurred'));
+        return;
+      }
+      dispatch(addTransactionSuccess(data));
+      toast.success(data.message);
+      handleClose();
+    } catch (error) {
+      toast.error(error.message || 'An error occurred');
+      dispatch(addTransactionFailure(error.message || 'An error occurred'));
     }
   };
 
   const validateForm = () => {
-    const newErrors = {};
-
     if (!formData.type) {
-      newErrors.type = 'Type is required';
+      return 'Type is required';
     }
 
     if (!formData.amount || isNaN(formData.amount) || Number(formData.amount) <= 0) {
-      newErrors.amount = 'Amount should be a positive number';
+      return 'Amount should be a positive number';
     }
 
-    if (!formData.category) {
-      newErrors.category = 'Category is required';
+    if (!formData.category || (formData.category === 'other' && !formData.customCategory.trim())) {
+      return 'Category is required';
     }
 
     if (!formData.date) {
-      newErrors.date = 'Date is required';
+      return 'Date is required';
     }
 
     if (!formData.method) {
-      newErrors.method = 'Method is required';
+      return 'Method is required';
     }
 
     if (!formData.name || formData.name.trim() === '') {
-      newErrors.name = 'Name is required';
+      return 'Name is required';
     }
 
     if (!formData.description || formData.description.trim() === '') {
-      newErrors.description = 'Description is required';
+      return 'Description is required';
     }
 
-    setErrors(newErrors);
-
-    // Return true if there are no errors
-    return Object.keys(newErrors).length === 0;
+    return null;
   };
-
-
-
-
 
   return (
     <div className='modal'>
-         <div className='formContainer'>
-            <div className='modalHeader'>
-                <h1>Adding new transaction</h1>
-            </div>
-            <div className='row'>
-              <label htmlFor="Type"  className='selectInputContainer'>
-              <span>Type</span>
-              <select name="" id="type" onChange={handleChange} className='selectInput'>
-                <option value="expense">Expense</option>
-                <option value="income">Income</option>
-              </select>
-              </label>
-              <label htmlFor="Type" className='selectInputContainer'>
-               <span>Amount</span> 
-                <input type="text" id='amount' onChange={handleChange} className='selectInput'  placeholder='$1000'/>
-              </label>
-              <label htmlFor="category" className='selectInputContainer'>
-                <span>Category</span>
-              <select name="" id="category" onChange={handleChange} className='selectInput'>
-                <option value="cat123456xyz">cat123456xyz</option>
-                <option value="cat123456xyz">cat123456xyz</option>
-                <option value="cat123456xyz">cat123456xyz</option>
-              </select>
-              </label>
-            </div>
-            <div className='row'>
-            <label htmlFor="date" className='ModalInputContainer'>
-               <span>Date</span> 
-                <input type="date" id='date' onChange={handleChange} className='selectInput' />
-              </label>
-              <label htmlFor="method"  className='ModalInputContainer'>
-                <span>Method</span>
-              <select name="" id='method' onChange={handleChange} className='selectInput'>
-                <option value="cash">Cash</option>
-                <option value="gpay">gpay</option>
-                <option value="phoePay">phonePay</option>
-              </select>
-              </label>
-            </div>
-            <div className='row'>
-              <label htmlFor="name"  className="ModalInputContainer">
-              <span>Name</span>
-              <input type="text" id='name' onChange={handleChange} className='selectInput'/>
-              </label>
-            </div>
-            <div className='row'>
-              <label htmlFor="desc"  className="ModalInputContainer">
-              <span>Description</span>
-              <textarea type="text" onChange={handleChange} id='description' className='selectInput'/>
-              </label>
-            </div>
-            
-            <div className='row'>
-  
-            <button  className="cancelBtn" onClick={handleClose}>cancel</button>
-            <button   type="submit" className="submitBtn" onClick={handleSubmit} >submit</button>
-        
-            </div>
-         </div>
+      <div className='formContainer'>
+        <div className='modalHeader'>
+          <h1>Adding new transaction</h1>
+        </div>
+        <div className='row'>
+          <label htmlFor="type" className='selectInputContainer'>
+            <span>Type</span>
+            <select id="type" value={formData.type} onChange={handleChange} className='selectInput'>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+          <label htmlFor="amount" className='selectInputContainer'>
+            <span>Amount</span>
+            <input type="text" id='amount' onChange={handleChange} className='selectInput' placeholder='INR' />
+          </label>
+          <label htmlFor="category" className='selectInputContainer'>
+            <span>Category</span>
+            <select id="category" value={formData.category} onChange={handleChange} className='selectInput'>
+              {formData.type === 'income' && incomeCategories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+              {formData.type === 'expense' && expenseCategories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        {formData.category === 'other' && (
+          <div className='row'>
+            <label htmlFor="customCategory" className="ModalInputContainer">
+              <span>Custom Category</span>
+              <input type="text" id='customCategory' value={formData.customCategory} onChange={handleChange} className='selectInput' />
+            </label>
+          </div>
+        )}
+        <div className='row'>
+          <label htmlFor="date" className='ModalInputContainer'>
+            <span>Date</span>
+            <input type="date" id='date' onChange={handleChange} className='selectInput' />
+          </label>
+          <label htmlFor="method" className='ModalInputContainer'>
+            <span>Method</span>
+            <select id='method' value={formData.method} onChange={handleChange} className='selectInput'>
+              <option value="cash">Cash</option>
+              <option value="gpay">GPay</option>
+              <option value="phonePay">PhonePay</option>
+              <option value="other">Other</option>
+              
+            </select>
+          </label>
+        </div>
+        {formData.method === 'other' && (
+          <div className='row'>
+            <label htmlFor="customMethod" className="ModalInputContainer">
+              <span>Custom method</span>
+              <input type="text" id='customMethod' value={formData.customMethod} onChange={handleChange} className='selectInput' />
+            </label>
+          </div>
+        )}
+        <div className='row'>
+          <label htmlFor="name" className="ModalInputContainer">
+            <span>Name</span>
+            <input type="text" id='name' onChange={handleChange} className='selectInput' />
+          </label>
+        </div>
+        <div className='row'>
+          <label htmlFor="description" className="ModalInputContainer">
+            <span>Description</span>
+            <textarea id='description' onChange={handleChange} className='selectInput' />
+          </label>
+        </div>
+        <div className='row'>
+          <button className="cancelBtn" onClick={handleClose}>Cancel</button>
+          <button disabled={loading} type="submit" className="submitBtn" onClick={handleSubmit}>{loading ? 'Loading..' : 'Submit'}</button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

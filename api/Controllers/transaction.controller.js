@@ -3,7 +3,7 @@ import { db } from "../firebase/firebaseConfig.js";
 
 
 export const createTransaction=async(req,res)=>{
-    const { userId, amount, category, description, date, type}=req.body;
+    const { userId, amount, category, description, date, type ,method }=req.body;
     try {
         if (!['income', 'expense'].includes(type)) {
             return res.status(400).json({ message: "Invalid type. Must be 'income' or 'expense'" });
@@ -15,7 +15,8 @@ export const createTransaction=async(req,res)=>{
             category,
             description,
             date: new Date(date), // Ensure date is in Date format
-            type, // Add type field
+            type,
+            method,
           };
     const docRef = await addDoc(collection(db, "transactions"), newTransaction);
     res.status(201).json({ message: "Transaction created successfully", id: docRef.id });

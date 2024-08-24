@@ -3,6 +3,7 @@ import "./Dashboard.css";
 import Button1 from "../../components/button/Button1";
 import DesktopNav from "../../components/navigation/DesktopNav";
 import Modal from "../../components/modals/Modal";
+import Card1 from "../../components/cards/card1";
 
 export default function Dashboard() {
 
@@ -32,6 +33,15 @@ export default function Dashboard() {
       <section className="section2">
         <Button1 handleClick={() => setModalOpen(true)} />
       </section>
+      <section>
+        <div className="cardContainer">
+          <Card1/>
+          <Card1/>
+          <Card1/>
+          <Card1/>
+        </div>
+      </section>
+
       <div></div>
     </div>
     <div className="modalDemo">
