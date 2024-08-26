@@ -45,11 +45,10 @@ const dispatch=useDispatch()
  
 
 
-  if(transactions?.length > 0 )
-  {
+
     const lastFiveTransactions = transactions.slice(-5);
 
-  }
+  
  
   
   const applyFilters = () => {
@@ -76,8 +75,7 @@ const dispatch=useDispatch()
     });
   };
 
-  if(filteredTransactions && filteredTransactions.length>0)
-  {
+  
     const { totalIncome, totalExpense } = filteredTransactions.reduce(
       (totals, transaction) => {
         const amount = parseFloat(transaction.amount);
@@ -93,7 +91,7 @@ const dispatch=useDispatch()
   
     const netTotal = totalIncome - totalExpense;
 
-  }
+  
 
 
   
@@ -149,11 +147,10 @@ const dispatch=useDispatch()
       </section>
       <section>
         <div className="cardContainer">
-          {netTotal&&<Card1 data={{ title: "Total balance", date: "2024-08-24", amount: netTotal,type: "total" }} />}
-          {totalIncome&&<Card1  data={{ title: "Total income", date: "2024-08-24", amount: totalIncome,type: "income" }} />}
-          {totalExpense&&<Card1 data={{ title: "Total expense", date: "2024-08-24", amount: totalExpense,type: "expense" }} />}
-          {/*   */}
-          {/* <Card1/> */}
+         <Card1 data={{ title: "Total balance", date: "2024-08-24", amount: netTotal,type: "total" }} />
+         <Card1  data={{ title: "Total income", date: "2024-08-24", amount: totalIncome,type: "income" }} />
+          <Card1 data={{ title: "Total expense", date: "2024-08-24", amount: totalExpense,type: "expense" }} />
+        
         </div>
       </section>
       <section>
