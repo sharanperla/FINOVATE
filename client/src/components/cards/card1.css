@@ -69,3 +69,9 @@
     font-weight: 600;
     line-height: 0.5;
   }
+  .income{
+    color: green;
+  }
+  .expense{
+    color: red;
+  }

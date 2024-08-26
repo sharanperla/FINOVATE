@@ -8,7 +8,7 @@ import { addTransactionFailure, addTransactionStart, addTransactionSuccess } fro
 export default function Modal({ handleClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useSelector((state) => state.transaction.loading);
+  const loading = useSelector((state) => state.transaction.transactionLoading);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [formData, setFormData] = useState({
     type: 'income',

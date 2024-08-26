@@ -88,3 +88,22 @@ table{
     
     }
 }
+
+.deleteIcon {
+    color: red;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .deleteIcon:hover {
+    color: darkred;
+  }
+  
+  .massDeleteButton{
+    display: none;
+  }
+  .massDeleteButtonVisible
+  {
+    display: block;
+  }

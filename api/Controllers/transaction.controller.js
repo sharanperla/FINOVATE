@@ -3,7 +3,7 @@ import { db } from "../firebase/firebaseConfig.js";
 
 
 export const createTransaction=async(req,res)=>{
-    const { userId, amount, category, description, date, type ,method }=req.body;
+    const { userId, amount, category, description, date, type ,method,name }=req.body;
     try {
         if (!['income', 'expense'].includes(type)) {
             return res.status(400).json({ message: "Invalid type. Must be 'income' or 'expense'" });
@@ -14,9 +14,10 @@ export const createTransaction=async(req,res)=>{
             amount,
             category,
             description,
-            date: new Date(date), // Ensure date is in Date format
+            date: ""+new Date(date), // Ensure date is in Date format
             type,
             method,
+            name
           };
     const docRef = await addDoc(collection(db, "transactions"), newTransaction);
     res.status(201).json({ message: "Transaction created successfully", id: docRef.id });
@@ -71,6 +72,7 @@ export const getTransactionById = async (req, res) => {
         ...transactionDoc.data(),
       });
     } catch (error) {
+      
       res.status(400).json({ error: error.message });
     }
   };
@@ -96,7 +98,6 @@ export const getTransactionById = async (req, res) => {
   
   export const deleteTransaction = async (req, res) => {
     const { id } = req.params;
-  
     try {
       const transactionDocRef = doc(db, "transactions", id);
       await deleteDoc(transactionDocRef);

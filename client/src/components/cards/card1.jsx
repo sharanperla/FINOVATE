@@ -1,16 +1,31 @@
 import React from 'react'
 import './card1.css'
+import { useNavigate } from 'react-router-dom';
 
-export default function Card1() {
+export default function Card1({data}) {
+  const navigate = useNavigate();
+  const navigateToTransactions = (type) => {
+    let route = '/transactions'; // Default route
+
+    if (type === 'income') {
+      route += '?type=income';
+    } else if (type === 'expense') {
+      route += '?type=expense';
+    } else if (type === 'total') {
+      route += '?type=total';
+    }
+
+    navigate(route);
+  };
   return (
 <div className="card">
-  <h3 className="card__title">Toatal balance</h3> 
+  <h3 className="card__title">{data.title}</h3> 
   {/* <p className="card__content">
     Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
   </p> */}
-  <p className='price'>₹5000.00</p>
+  <p className={`price ${data.type=="income"?"income":data.type=="expense"?"expense":""}`} > ₹{data.amount}</p>
   <div className="card__date">April 15, 2022</div>
-  <div className="card__arrow">
+  <div onClick={() => navigateToTransactions(data.type)} className="card__arrow">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
