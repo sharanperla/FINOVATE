@@ -8,7 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTransactionFailure, fetchTransactionsStart, fetchTransactionsSuccess } from "../../redux/transactions/transaction.slice";
 import { toast } from "react-toastify";
 
+
 export default function Dashboard() {
+  const [modalOpen,setModalOpen]= useState(false);
+  const transactions=useSelector((state) => state.transaction.transactions)
+  const [filteredTransactions,setFilteredTransactions]=useState(transactions)
+  const [filters, setFilters] = useState({
+    month: "",
+  });
 const dispatch=useDispatch()
   const currentUser = useSelector((state) => state.user.currentUser);
 
@@ -35,12 +42,7 @@ const dispatch=useDispatch()
   };
 
 
-  const [modalOpen,setModalOpen]= useState(false);
-  const transactions=useSelector((state) => state.transaction.transactions)
-  const [filteredTransactions,setFilteredTransactions]=useState(transactions)
-  const [filters, setFilters] = useState({
-    month: "",
-  });
+ 
 
 
   if(transactions?.length > 0 )
@@ -73,20 +75,25 @@ const dispatch=useDispatch()
       [e.target.name]: e.target.value,
     });
   };
-  const { totalIncome, totalExpense } = filteredTransactions.reduce(
-    (totals, transaction) => {
-      const amount = parseFloat(transaction.amount);
-      if (transaction.type === "income") {
-        totals.totalIncome += amount;
-      } else if (transaction.type === "expense") {
-        totals.totalExpense += amount;
-      }
-      return totals;
-    },
-    { totalIncome: 0, totalExpense: 0 }
-  );
 
-  const netTotal = totalIncome - totalExpense;
+  if(filteredTransactions && filteredTransactions.length>0)
+  {
+    const { totalIncome, totalExpense } = filteredTransactions.reduce(
+      (totals, transaction) => {
+        const amount = parseFloat(transaction.amount);
+        if (transaction.type === "income") {
+          totals.totalIncome += amount;
+        } else if (transaction.type === "expense") {
+          totals.totalExpense += amount;
+        }
+        return totals;
+      },
+      { totalIncome: 0, totalExpense: 0 }
+    );
+  
+    const netTotal = totalIncome - totalExpense;
+
+  }
 
 
   
@@ -109,8 +116,8 @@ const dispatch=useDispatch()
             className="userIcon"
           />
           <div className="userDesc">
-            <span>{currentUser.user.username}</span>
-            <p>{currentUser.user.email}</p>
+            <span>{currentUser?.user?.username}</span>
+            <p>{currentUser?.user?.email}</p>
           </div>
         </div>
       </section>
@@ -142,10 +149,10 @@ const dispatch=useDispatch()
       </section>
       <section>
         <div className="cardContainer">
-          <Card1 data={{ title: "Total balance", date: "2024-08-24", amount: netTotal,type: "total" }} />
-          <Card1  data={{ title: "Total income", date: "2024-08-24", amount: totalIncome,type: "income" }} />
-          <Card1 data={{ title: "Total expense", date: "2024-08-24", amount: totalExpense,type: "expense" }} />
-          <Card1 data={{ title: "Total savings", date: "2024-08-24", amount: totalExpense,type: "savings" }} />
+          {netTotal&&<Card1 data={{ title: "Total balance", date: "2024-08-24", amount: netTotal,type: "total" }} />}
+          {totalIncome&&<Card1  data={{ title: "Total income", date: "2024-08-24", amount: totalIncome,type: "income" }} />}
+          {totalExpense&&<Card1 data={{ title: "Total expense", date: "2024-08-24", amount: totalExpense,type: "expense" }} />}
+          {/*   */}
           {/* <Card1/> */}
         </div>
       </section>
