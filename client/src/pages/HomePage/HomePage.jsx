@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./HomePage.css";
 
-import SignUpCard from "../../components/signInCard/SignUpCard";
+import SignUpCard from "../../components/SignInCard/SignUpCard";
 import SignInCard from "../../components/SignInCard/SignInCard";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
