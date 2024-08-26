@@ -24,6 +24,19 @@ const transactionSlice=createSlice({
             state.transactionLoading=action.payload;
             state.loading=false;
         },
+        updateTransactionStart:(state)=>{
+            state.transactionLoading=true
+            state.error=null;
+        },
+        updateTransactionSuccess:(state,action)=>{
+        
+            state.transactionLoading=false;
+            state.error=null;
+        },
+        updateTransactionFailure:(state,action)=>{
+            state.transactionLoading=action.payload;
+            state.loading=false;
+        },
         fetchTransactionsStart:(state)=>{
             state.loading=true
             state.error=null;

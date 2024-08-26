@@ -44,9 +44,8 @@ export default function DesktopNav() {
         <div className='navItems'>
             <div className={`navItem ${activeItem === '/dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/dashboard')}><img src="/Icons/dashboard.svg" alt=""   className='NavItemIcon'/><p>Dashboard</p></div>
             <div className={`navItem ${activeItem === '/transactions' ? 'active' : ''}`} onClick={() => handleNavigation('transactions', '/transactions')}><img src="/Icons/credit-card.svg" alt=""   className='NavItemIcon'/><p>Transactions</p></div>
-            <div className={`navItem ${activeItem === '/categories' ? 'active' : ''}`} onClick={() => handleNavigation('settings', '/')} ><img src="/Icons/settings.svg" alt="" className='NavItemIcon' /><p>Settings</p></div>
-            <div className='navItem'><img src="/Icons/transaction2.svg" alt="" className='NavItemIcon' /><p>Income</p></div>
-            <div className='navItem'><img src="/Icons/transaction1.svg" alt="" className='NavItemIcon' /><p>Expence</p></div>
+            <div className={`navItem ${activeItem === '/profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/profile')} ><img src="/Icons/settings.svg" alt="" className='NavItemIcon' /><p>Profile</p></div>
+            
         </div>
        </div>
        <ToastContainer/>

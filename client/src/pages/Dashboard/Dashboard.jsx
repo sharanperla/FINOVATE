@@ -96,13 +96,13 @@ const dispatch=useDispatch()
         </div>
         <div className="userProfile">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&s"
+            src="https://www.shutterstock.com/image-vector/young-smiling-man-adam-avatar-600nw-2107967969.jpg"
             alt=""
             className="userIcon"
           />
           <div className="userDesc">
-            <span>Sharan kumar</span>
-            <p>shranperla@gmail.com</p>
+            <span>{currentUser.user.username}</span>
+            <p>{currentUser.user.email}</p>
           </div>
         </div>
       </section>

@@ -8,6 +8,7 @@ import {persistor, store} from './redux/Store.js'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
 import PrivateRoute from "./components/PrivateRoute";
+import Profile from "./pages/Profile/Profile";
 
 function Main() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function Main() {
           <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
+          <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

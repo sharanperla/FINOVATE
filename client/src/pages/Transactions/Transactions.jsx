@@ -271,7 +271,7 @@ const handleTransactionUpdate = async (updatedTransaction) => {
                   </select>
                 </div>
               </div>
-              <Button1 />
+              {/* <Button1 /> */}
             </div>
 
             <table>
@@ -317,8 +317,8 @@ const handleTransactionUpdate = async (updatedTransaction) => {
           transaction.type === "income" ? "income" : "expense"
         }
       >
-        {transaction.type === "income" ? "+ " : "- "}$
-        {transaction.amount}
+        {transaction.type === "income" ? "+ " : "- "}
+         {" "+transaction.amount}
       </td>
       <td>
         <div className="hoverDescription">
