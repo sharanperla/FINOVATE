@@ -41,6 +41,10 @@ const dispatch=useDispatch()
   const [filters, setFilters] = useState({
     month: "",
   });
+
+
+  const lastFiveTransactions = transactions.slice(-5);
+  console.log(lastFiveTransactions);
   
   const applyFilters = () => {
     let result = transactions;
@@ -140,6 +144,47 @@ const dispatch=useDispatch()
           <Card1 data={{ title: "Total savings", date: "2024-08-24", amount: totalExpense,type: "savings" }} />
           {/* <Card1/> */}
         </div>
+      </section>
+      <section>
+        Latest
+      <table>
+            <thead>
+  <tr className="header">
+  
+    <th>Date</th>
+    <th>Amount</th>
+    <th>Payment name</th>
+    <th>Method</th>
+    <th>Category</th>
+  </tr>
+</thead>
+              <tbody>
+  {lastFiveTransactions.map((transaction) => (
+    <tr key={transaction.id}>
+     
+      <td>{new Date(transaction.date).toLocaleDateString()}</td>
+      <td
+        className={
+          transaction.type === "income" ? "income" : "expense"
+        }
+      >
+        {transaction.type === "income" ? "+ " : "- "}
+         {" "+transaction.amount}
+      </td>
+      <td>
+        <div className="hoverDescription">
+          {transaction?.name}
+          <span>{transaction.description}</span>
+        </div>
+      </td>
+      <td>{transaction.method}</td>
+      <td>{transaction.category}</td>
+     
+      
+    </tr>
+  ))}
+</tbody>
+            </table>
       </section>
 
       <div></div>
