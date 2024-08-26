@@ -43,7 +43,11 @@ const dispatch=useDispatch()
   });
 
 
-  const lastFiveTransactions = transactions?.slice(-5);
+  if(transactions?.length > 0 )
+  {
+    const lastFiveTransactions = transactions.slice(-5);
+
+  }
   console.log(lastFiveTransactions);
   
   const applyFilters = () => {
@@ -159,7 +163,7 @@ const dispatch=useDispatch()
   </tr>
 </thead>
               <tbody>
-  {lastFiveTransactions?.map((transaction) => (
+  {lastFiveTransactions&&lastFiveTransactions.map((transaction) => (
     <tr key={transaction.id}>
      
       <td>{new Date(transaction.date).toLocaleDateString()}</td>
