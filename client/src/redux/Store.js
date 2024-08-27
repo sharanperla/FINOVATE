@@ -24,4 +24,6 @@ export const store= configureStore({
 }),
 })
 
-export const persistor=persistStore(store);
+export const persistor=persistStore(store, null, () => {
+  console.log('Redux Persist is working!');
+});
