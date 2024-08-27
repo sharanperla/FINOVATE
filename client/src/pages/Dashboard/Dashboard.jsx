@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transaction.transactions);
+  console.log('this is transaciton',transactions);
   const loading = useSelector((state) => state.transaction.loading);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -96,6 +97,7 @@ export default function Dashboard() {
   const netTotal = totalIncome - totalExpense;
 
   const lastFiveTransactions = Array.isArray(transactions) ? transactions.slice(-5) : [];
+  console.log('this is lastFiveTransactions',lastFiveTransactions);
   if (loading) {
     return <div>Loading...</div>;
   }
