@@ -81,7 +81,7 @@ export default function Dashboard() {
     });
   };
 
-  const { totalIncome, totalExpense } = filteredTransactions.reduce(
+  const { totalIncome, totalExpense } = Array.isArray(filteredTransactions) ? filteredTransactions.reduce(
     (totals, transaction) => {
       const amount = parseFloat(transaction.amount);
       if (transaction.type === "income") {
@@ -92,7 +92,7 @@ export default function Dashboard() {
       return totals;
     },
     { totalIncome: 0, totalExpense: 0 }
-  );
+  ) : { totalIncome: 0, totalExpense: 0 };
 
   const netTotal = totalIncome - totalExpense;
 
