@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState={
-    transactions:{},
+    transactions:[],
     error:null,
     loading:false,
     transactionLoading:false
